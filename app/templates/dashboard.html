@@ -1,0 +1,17 @@
+{% extends 'base.html' %}{% block content %}
+<div class="heading"><div><div class="eyebrow">مرکز کنترل محتوا</div><h1>داشبورد انتشار</h1><p class="muted">پیام‌ها فقط پس از تأیید مدیر و رسیدن زمان تعیین‌شده ارسال می‌شوند.</p></div><div class="head-actions"><a class="secondary button" href="/connection">آزمایش اتصال روبیکا</a><a class="primary button" href="/new">＋ ثبت پیام جدید</a></div></div>
+<div class="stats">
+  <div class="stat"><small>پیش‌نویس / منتظر تأیید</small><b>{{ counts.get('draft',0) }}</b></div>
+  <div class="stat"><small>تأییدشده / در انتظار زمان</small><b>{{ counts.get('approved',0) }}</b></div>
+  <div class="stat"><small>منتشرشده</small><b>{{ counts.get('published',0) }}</b></div>
+  <div class="stat"><small>ناموفق</small><b>{{ counts.get('failed',0) }}</b></div>
+</div>
+<section class="card"><div class="section-head"><h2>صف انتشار و سوابق</h2><span class="muted">۱۰۰ پیام اخیر</span></div>
+{% if posts %}<div class="table-wrap"><table><thead><tr><th>عنوان</th><th>زمان شمسی</th><th>تکرار</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>
+{% for p in posts %}<tr><td><strong>{{ p.title }}</strong>{% if p.image_path %}<div class="muted tiny">دارای تصویر</div>{% endif %}{% if p.last_error %}<div class="error-text">{{ p.last_error }}</div>{% endif %}</td><td class="nowrap">{{ p.jalali_time }}{% if p.overdue %}<div class="error-text">موعد گذشته؛ هنوز تأیید نشده</div>{% endif %}</td><td>{{ {'none':'بدون تکرار','daily':'روزانه','weekly':'هفتگی'}.get(p.recurrence,p.recurrence) }}</td><td><span class="status s-{{ p.status }}">{{ {'draft':'منتظر تأیید','approved':'تأیید شده','sending':'در حال ارسال','published':'منتشر شده','failed':'ارسال ناموفق','rejected':'رد شده'}.get(p.status,p.status) }}</span></td><td><div class="actions">
+{% if p.status in ['draft','failed'] %}<form method="post" action="/posts/{{ p.id }}/approve"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="mini approve">تأیید انتشار</button></form><form method="post" action="/posts/{{ p.id }}/reject"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="mini neutral">رد</button></form>{% endif %}
+{% if p.status not in ['published','sending'] %}<form method="post" action="/posts/{{ p.id }}/delete" onsubmit="return confirm('این پیام حذف شود؟')"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="mini danger">حذف</button></form>{% endif %}
+{% if p.status == 'published' %}<span class="muted tiny">شناسه: {{ p.rubika_message_id or 'ثبت نشده' }}</span>{% endif %}
+</div></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">هنوز پیامی ثبت نشده است. اولین پیام کانال را ایجاد کنید.</div>{% endif %}</section>
+<div class="note"><strong>نحوه کار:</strong> پیام را ثبت کنید، متن و تصویر را بررسی کنید و «تأیید انتشار» را بزنید. اگر زمان انتشار نرسیده باشد، سیستم منتظر می‌ماند؛ اگر زمان گذشته و پیام تأیید نشده باشد، آن را ارسال نمی‌کند.</div>
+{% endblock %}

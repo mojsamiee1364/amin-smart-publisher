@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block content %}
+<section class="login card"><div class="eyebrow">ورود مدیر سیستم</div><h1>پنل انتشار هوشمند</h1><p class="muted">برای مدیریت و تأیید پیام‌های کانال وارد شوید.</p>
+{% if error %}<div class="alert">{{ error }}</div>{% endif %}
+<form method="post" action="/login"><input type="hidden" name="csrf" value="{{ csrf }}"><label>رمز عبور مدیر</label><input type="password" name="password" required autofocus><button class="primary full">ورود به پنل</button></form></section>
+{% endblock %}

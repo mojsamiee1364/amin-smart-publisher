@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block content %}
+<div class="heading"><div><div class="eyebrow">مدیریت محتوا</div><h1>ثبت پیام جدید</h1><p class="muted">تاریخ را شمسی وارد کنید؛ پیام ابتدا به‌صورت پیش‌نویس ذخیره می‌شود.</p></div><a class="secondary button" href="/">بازگشت به داشبورد</a></div>
+<section class="card form-card">
+{% if error %}<div class="alert">{{ error }}</div>{% endif %}
+<form method="post" action="/new" enctype="multipart/form-data"><input type="hidden" name="csrf" value="{{ csrf }}">
+<label>عنوان داخلی پیام</label><input name="title" maxlength="160" required placeholder="مثلاً معرفی مانتوهای جدید پاییزه">
+<label>متن پیام کانال</label><textarea name="body" rows="7" placeholder="متن نهایی که در کانال روبیکا منتشر می‌شود..."></textarea>
+<label>تصویر (اختیاری)</label><input type="file" name="image" accept="image/jpeg,image/png,image/webp"><small class="muted">JPG، PNG یا WEBP؛ حداکثر ۸ مگابایت</small>
+<div class="two"><div><label>تاریخ انتشار شمسی</label><input name="jalali_date" required placeholder="۱۴۰۵/۰۹/۰۱" dir="ltr"></div><div><label>ساعت انتشار</label><input name="publish_time" required placeholder="۱۸:۳۰" dir="ltr"></div></div>
+<label>الگوی تکرار</label><select name="recurrence"><option value="none">فقط یک‌بار</option><option value="daily">هر روز</option><option value="weekly">هر هفته</option></select>
+<div class="note">در پیام‌های تکرارشونده، پس از هر انتشار موفق، نوبت بعدی به‌صورت پیش‌نویس ساخته می‌شود و برای هر نوبت باید دوباره تأیید کنید.</div>
+<button class="primary full">ذخیره پیش‌نویس</button></form></section>
+{% endblock %}

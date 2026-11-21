@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or 'Amin Smart Publisher' }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar"><div><strong>امین</strong><span>Amin Smart Publisher</span></div>{% if request.session.get('logged_in') %}<form method="post" action="/logout"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="linkbtn">خروج</button></form>{% endif %}</header>
+<main class="wrap">{% block content %}{% endblock %}</main>
+<footer>سامانه مدیریت انتشار محتوای کانال پوشاک امین</footer>
+</body></html>

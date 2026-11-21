@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block content %}
+<div class="heading"><div><div class="eyebrow">پیکربندی ارتباط</div><h1>آزمایش اتصال روبیکا</h1><p class="muted">این آزمایش فقط اطلاعات ربات را می‌خواند و هیچ پیامی منتشر نمی‌کند.</p></div><a class="secondary button" href="/">بازگشت</a></div>
+<section class="card form-card">
+{% if ok is not none %}<div class="{{ 'success-box' if ok else 'alert' }}">{{ 'اتصال به Bot API پاسخ موفق داد.' if ok else 'اتصال ناموفق بود.' }}<div class="tiny" dir="ltr">{{ detail }}</div></div>{% endif %}
+<p>قبل از آزمایش، مقادیر <code>RUBIKA_BOT_TOKEN</code> و <code>RUBIKA_CHANNEL_ID</code> را در فایل تنظیمات سرور وارد کنید. ربات باید به کانال اضافه شده و مجوز ارسال داشته باشد.</p>
+<form method="post" action="/test-connection"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="primary">آزمایش توکن ربات (getMe)</button></form>
+</section>
+{% endblock %}
