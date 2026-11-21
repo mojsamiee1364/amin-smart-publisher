@@ -1,0 +1,13 @@
+services:
+  publisher:
+    build: .
+    container_name: amin-smart-publisher
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      COOKIE_HTTPS_ONLY: "true"
+      APP_TIMEZONE: Asia/Tehran
+    volumes:
+      - ./storage:/srv/app/storage
+    ports:
+      - "127.0.0.1:8000:8000"
